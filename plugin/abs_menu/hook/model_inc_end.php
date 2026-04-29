@@ -1,0 +1,1 @@
+include _include(APP_PATH.'plugin/abs_menu/model/nav_menu.func.php');

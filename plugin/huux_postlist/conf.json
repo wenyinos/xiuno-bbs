@@ -1,0 +1,11 @@
+{
+    "name": "回帖排序",
+    "brief": "增加回帖查看方式，倒序和正序<br />(FOR 4.0正式版)",
+    "version": "1.1",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

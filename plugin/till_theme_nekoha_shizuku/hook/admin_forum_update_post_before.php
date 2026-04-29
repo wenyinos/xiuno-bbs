@@ -1,0 +1,1 @@
+$arr['color'] = $color;

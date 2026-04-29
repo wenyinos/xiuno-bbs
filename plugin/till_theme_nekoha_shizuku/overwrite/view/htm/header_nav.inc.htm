@@ -1,0 +1,55 @@
+<!--{hook header_nav_start.htm}-->
+
+
+<header id="header" class="custom-navbar">
+	<div class="container clearfix">
+		<!-- 站点LOGO -->
+		<div class="custom-logo z">
+			<h2><a href="./"><img src="view/img/logo-2.png" class="logo-2"></a></h2>
+		</div>
+
+
+		<!-- 用户信息 -->
+		<div class="custom-user custom-navigate">
+			<ul class="clearfix">
+				<li class="d-md-none">
+					<a href="#" class="sidemenu-toggler">
+						<i class="icon-bars"></i>
+					</a>
+				</li>
+
+				<?php xn_nav_menu(array(
+		    'menu'            => 'secondary_menu',
+		    'container'       => false,
+		    'menu_class'      => '',
+		    'item_class'      => '',
+		    'link_class'      => '',
+			'no_ul'=>true
+		)); ?>
+			</ul>
+		</div>
+
+		<!-- 导航 -->
+		<div class="custom-navigate">
+			<ul class="clearfix">
+				<li class="close d-md-none">
+					<a href="#" class="sidemenu-toggler">
+						<i>&times;</i>
+					</a>
+				</li>
+
+				<?php xn_nav_menu(array(
+				    'menu'            => 'primary_menu',
+				    'container'       => false,
+				    'menu_class'      => '',
+				    'item_class'      => '',
+				    'link_class'      => '',
+					'no_ul'=> true
+				)); ?>
+			</ul>
+		</div>
+
+	</div>
+</header>
+
+<!--{hook header_nav_end.htm}-->

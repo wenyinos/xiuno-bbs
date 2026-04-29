@@ -1,0 +1,1 @@
+<?php exit;?>	2023-03-31 18:27:23	112.4.211.90	/plugin/GG_vcode/model/vcode.php	0	Error[2]: chdir(): open_basedir restriction in effect. File(../../../) is not within the allowed path(s): (/www/wwwroot/comm.wenyinos/:/tmp/), File: /www/wwwroot/comm.wenyinos/model/session.func.php, Line: 124

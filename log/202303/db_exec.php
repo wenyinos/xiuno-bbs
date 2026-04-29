@@ -1,0 +1,1 @@
+<?php exit;?>	2023-03-31 18:27:23	112.4.211.90	/plugin/GG_vcode/model/vcode.php	0	UPDATE bbs_session SET `url`='vcode.php',`data`='GG_vcode|s:3:\"58u\";',`useragent`='Mozilla/5.0 (Windows NT 10.0; Win64; x64; Valve Client/1679680416) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'  WHERE `sid`='d3e1hf97scaf45c14rhr9bped7' 

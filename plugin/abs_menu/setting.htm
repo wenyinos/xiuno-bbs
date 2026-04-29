@@ -1,0 +1,297 @@
+<?php 
+include _include(ADMIN_PATH.'view/htm/header.inc.htm');
+$rowid = 0;
+
+?>
+</div> <!-- .container -->
+<div class="container-fluid">
+	<style>
+		.dataTable {
+			background-color: var(--white);
+			min-width: 64em
+		}
+
+		.dataTable .form-control[readonly] {
+			background-color: var(--white);
+		}
+
+		.dataTable .custom-select {
+			border: none;
+		}
+
+		.row_delete {
+			font-family: monospace;
+			font-weight: 900;
+		}
+
+		@media (min-width: 768px) {
+			.dl-horizontal:after {
+				content: "";
+				display: table;
+				clear: both;
+			}
+
+			.dl-horizontal dt {
+				float: left;
+				width: 180px;
+				overflow: hidden;
+				clear: left;
+				text-align: right;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
+			.dl-horizontal-narrow dt {
+				width: 80px;
+			}
+
+			.dl-horizontal dd {
+				margin-left: 200px;
+			}
+
+			.dl-horizontal-narrow dd {
+				margin-left: 100px;
+			}
+		}
+
+		@media (max-width: 767px) {
+
+			.select-menu-slot .input-group-prepend,
+			.select-menu-slot .input-group-text {
+				width: 100%;
+				border-color: transparent;
+				background-color: transparent;
+				padding-left: 0;
+			}
+		}
+	</style>
+	<form action="<?= url('plugin-setting-abs_menu');?>" method="get" class="select-menu-slot">
+		<div class="container">
+			<div class="input-group form-group align-items-center">
+				<div class="input-group-prepend">
+					<label for="selected_menu" class="input-group-text">
+						<?= lang("Select the menu to edit") ?>：
+					</label>
+				</div>
+				<?php 
+						$select_menu_slots = $abs_nav_menus_slots;
+						$select_menu_slots = array_splice($select_menu_slots,1);
+						/*
+						if(isset($_this_menu_parent) && !empty($_this_menu_parent)) {
+						$select_menu_slots[$selected_menu] .= ' → '.'上级'.'：' . $abs_nav_menus_slots[$_this_menu_parent] . '';
+						}
+						*/
+						echo( form_select('selected_menu', $select_menu_slots, $selected_menu) ); 
+						?>
+				<div class="input-group-append">
+					<button type="submit" class="btn btn-primary">
+						<?= lang('select') ?>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="card">
+		<div class="card-body">
+			<?php if(!$not_selected_menu): ?>
+			<form action="<?= url('plugin-setting-abs_menu');?>" method="post" id="form">
+				<input type="hidden" name="selected_menu" value="<?= $selected_menu ?>">
+				<input type="hidden" name="action" value="edit_menu">
+				<div class="table-responsive" id="arrlist">
+					<style scoped>
+						.dataTable input {
+							border: none;
+						}
+
+						.dataTable tr td {
+							padding: .25rem;
+						}
+					</style>
+					<table class="table table-bordered dataTable">
+						<thead>
+							<tr align="center">
+								<th style="width:4em">ID</th>
+								<th style="width:5em">
+									<?= lang('menu_item_order') ?>
+								</th>
+								<th style="width:10%">
+									<?= lang('menu_item_icon') ?>
+								</th>
+								<th style="width:15%;min-width:5em">
+									<?= lang('menu_item_name') ?>
+								</th>
+								<th style="min-width:5em">
+									<?= lang('menu_item_href') ?>
+								</th>
+								<th style="width:8%"><abbr title="<?= lang('menu_item_title_long') ?>">
+										<?= lang('menu_item_title_short') ?>
+									</abbr></th>
+								<th style="width:8%"><abbr title="<?= lang('menu_item_desc_long') ?>">
+										<?= lang('menu_item_desc_short') ?>
+									</abbr></th>
+								<th style="width:8%">
+									<?= lang('menu_item_class') ?>
+								</th>
+								<th style="width:8%"><abbr title="<?= lang('menu_item_attr_long') ?>">
+										<?= lang('menu_item_attr_short') ?>
+									</abbr></th>
+								<th style="width:10%">
+									<?= lang('menu_item_submenu') ?>
+								</th>
+								<th style="width:3em"><abbr title="<?= lang('delete') ?>"><i class="icon-trash-o"></i></abbr></th>
+							</tr>
+							<thead>
+							<tbody>
+								<?php 
+								foreach($_this_menu as $item) :
+											$rowid = $item['lid'];
+											?>
+								<tr align="center" rowid="<?= $rowid; ?>">
+									<td><input type="number" min="1" step="1" class="form-control  " name="lid[<?= $rowid;?>]" value="<?= $rowid; ?>" placeholder="0" readonly /></td>
+									<td><input type="number" min="0" step="1" class="form-control" name="order[<?= $rowid;?>]" value="<?= (isset($item['order'])? $item['order'] : 0) ?>" placeholder="0" /></td>
+									<td><input type="text" class="form-control " name="icon[<?= $rowid;?>]" value="<?= (isset($item['icon'])? $item['icon'] : '') ?>" placeholder="icon-" /></td>
+									<td><input type="text" class="form-control " name="name[<?= $rowid;?>]" value="<?= (isset($item['name'])? $item['name'] : '') ?>" placeholder="导航标签" /></td>
+									<td><input type="text" class="form-control " name="href[<?= $rowid;?>]" value="<?= (isset($item['href'])? $item['href'] : '') ?>" placeholder="https://" list="magic_href" /></td>
+									<td><input type="text" class="form-control" name="title[<?= $rowid;?>]" value="<?= (isset($item['title'])? $item['title'] : '') ?>" placeholder="<?= lang('Visible when mouse hovers') ?>" /></td>
+									<td><input type="text" class="form-control" name="desc[<?= $rowid;?>]" value="<?= (isset($item['desc'])? $item['desc'] : '') ?>" /></td>
+									<td><input type="text" class="form-control" name="class[<?= $rowid;?>]" value="<?= (isset($item['class'])? $item['class'] : '') ?>" placeholder="" /></td>
+									<td><input type="text" class="form-control" name="attr[<?= $rowid;?>]" value="<?= (isset($item['attr'])? $item['attr'] : '') ?>" /></td>
+									<td>
+										<?php 
+										if( !isset($item['submenu']) || empty($item['submenu']) ) {
+											$item['submenu'] = '_none';
+										}
+										echo( form_select('submenu['.$rowid.']', $_this_menu_available_submenu_slots, $item['submenu'], false ) ); 
+										?>
+									</td>
+									<td><a href="#" class="btn btn-link text-danger row_delete" role="btn" href>&times;</a></td>
+								</tr>
+								<?php endforeach; ?>
+								<tr rowid="<?= !empty($maxid) ? $maxid+=1 : 0; ?>" class="d-none">
+									<td><input type="number" class="form-control" name="lid[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="0" readonly /></td>
+									<td><input type="number" class="form-control" name="order[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="0" /></td>
+									<td><input type="text" class="form-control" name="icon[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="icon-" /></td>
+									<td><input type="text" class="form-control" name="name[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="导航标签" /></td>
+									<td><input type="text" class="form-control" name="href[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="https://" list="magic_href" /></td>
+									<td><input type="text" class="form-control" name="title[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="<?= lang('Visible when mouse hovers') ?>" /></td>
+									<td><input type="text" class="form-control" name="desc[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="" /></td>
+									<td><input type="text" class="form-control" name="class[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="" /></td>
+									<td><input type="text" class="form-control" name="attr[<?= PHP_INT_MAX /*$maxid*/?>]" value="" placeholder="" /></td>
+									<td>
+										<?php echo( form_select('submenu['.PHP_INT_MAX.']', $_this_menu_available_submenu_slots, '_none') ); ?>
+									</td>
+									<td><a href="#" class="btn btn-link text-danger row_delete" role="btn">&times;</a></td>
+								</tr>
+							</tbody>
+					</table>
+					<datalist id="magic_href">
+						<?php foreach($abs_nav_menus_magic_href as $magic_href_item => $magic_href_item_label ): ?>
+						<option value="<?= $magic_href_item ?>" name="aaa">
+							<?php endforeach; ?>
+					</datalist>
+				</div>
+				<!--d-flex justify-content-between align-items-center-->
+				<div class="row-action clearfix">
+					<div class="float-left">
+						<a href="#" role="button" class="btn btn-success row_add text-white">+
+							<?= lang('add_menu_item') ?>
+						</a>
+						<!--{hook menu_setting_toolbar_left.htm}-->
+					</div>
+					<div class="float-right">
+						<button type="submit" class="btn btn-secondary" id="export_menu" data-modal-url="plugin-setting-abs_menu-import.htm?selected_menu=<?= $selected_menu ?>" data-modal-title="导入菜单数据">
+							<i class="icon-download"></i>
+							<?= lang('menu_import') ?>
+						</button>
+						<button type="submit" class="btn btn-secondary" id="export_menu" data-modal-url="plugin-setting-abs_menu-export.htm?selected_menu=<?= $selected_menu ?>" data-modal-title="导出菜单数据">
+							<i class="icon-upload"></i>
+							<?= lang('menu_export') ?>
+						</button>
+						<button type="submit" class="btn btn-primary" id="submit" data-loading-text="<?= lang('submiting');?>...">
+							<i class="icon-floppy-o"></i>
+							<?= lang('save');?>
+						</button>
+					</div>
+				</div>
+			</form>
+			<?php else: ?>
+			<div class="card-body text-center">
+				<h2 class="h5"><i class="icon-hand-o-up text-primary h3"></i>
+					<?= lang('Select the menu to edit') ?>
+				</h2>
+				<p>
+					<?= lang('Dont forget to click Save') ?>
+				</p>
+				<!--{hook menu_setting_toolbar_left.htm}-->
+			</div>
+			<?php endif; ?>
+			<!--{hook menu_setting_docs.htm}-->
+		</div>
+	</div>
+</div>
+<div class="container">
+	<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+	<script id="abs_menu">
+
+		$('#nav li.nav-item-menus').addClass('active');
+
+		var maxid = <?= $maxid;?>; //当前最大ID
+
+		var jform = $("#form");
+		var jsubmit = $("#submit");
+		var jarrlist = $('#arrlist');
+		//jform.base64_encode_file(); // 对文件进行 base64 编码，处理文件上传，很方便
+
+		//提交
+		jform.on('submit', function () {
+			jform.reset();
+			var postdata = jform.serialize();
+			jsubmit.button('loading');
+			$.xpost(jform.attr('action'), postdata, function (code, message) {
+				if (code == 0) {
+					alert(message);
+					jsubmit.text(message).location();
+					return;
+				} else {
+					alert(message);
+					jsubmit.button('reset');
+				}
+			});
+			return false;
+		});
+
+		// 删除
+		var jdelete = $('a.row_delete');
+		jarrlist.on('click', 'a.row_delete', function () {
+			var jthis = $(this);
+			var jtr = jthis.parents('tr');
+			var rowid = jtr.attr('rowid');
+			if (jform.find('tbody').find('tr').length <= 2) {
+				$.alert('请保留至少一个菜单项！');
+				return;
+			}
+			jtr.remove();
+			return false;
+		});
+		// 增加
+		var jadd = $('a.row_add');
+		jadd.on('click', function () {
+
+			var jclone = jarrlist.find('tr').last().clone(); //复制模板
+			jclone.insertAfter(jarrlist.find('tr').last()).removeClass('d-none'); //粘贴到最后一项
+
+			var jrowid = jclone.find('input[name^="lid"]');
+			var rowid = ++maxid - 1;
+			jrowid.val(rowid); //填写ID
+			jclone.attr('rowid', rowid);
+
+			// 清空其他框的值
+			jclone.find('input').not('[name^="lid"]').val('');
+
+			// 修改 name="xxx[]" 中的值为 rowid
+			jclone.find('input').attr_name_index(rowid);
+
+			return false;
+		});
+
+	</script>

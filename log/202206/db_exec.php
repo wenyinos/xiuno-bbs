@@ -1,0 +1,4 @@
+<?php exit;?>	2022-06-29 21:52:33	183.209.184.75	/plugin/GG_vcode/model/vcode.php	0	UPDATE bbs_session SET `url`='vcode.php',`data`='GG_vcode|s:3:\"8vd\";'  WHERE `sid`='0d70he827an2mlkbt9grapoq0j' 
+<?php exit;?>	2022-06-29 21:52:44	183.209.184.75	/plugin/GG_vcode/model/vcode.php	0	UPDATE bbs_session SET `url`='vcode.php',`data`='GG_vcode|s:3:\"7yv\";'  WHERE `sid`='0d70he827an2mlkbt9grapoq0j' 
+<?php exit;?>	2022-06-29 21:52:49	183.209.184.75	/plugin/GG_vcode/model/vcode.php	0	UPDATE bbs_session SET `url`='vcode.php',`last_date`='1656510769',`data`='GG_vcode|s:3:\"nhf\";'  WHERE `sid`='0d70he827an2mlkbt9grapoq0j' 
+<?php exit;?>	2022-06-29 21:58:22	183.209.184.75	/plugin/GG_vcode/model/vcode.php	0	UPDATE bbs_session SET `url`='vcode.php',`data`='GG_vcode|s:3:\"vac\";tmp_files|a:0:{}'  WHERE `sid`='0d70he827an2mlkbt9grapoq0j' 

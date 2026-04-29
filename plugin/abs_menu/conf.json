@@ -1,0 +1,11 @@
+{
+    "name": "菜单 / Menus",
+    "brief": "添加若干导航菜单槽位，含编辑器。二次开发必备。 / Adds several navigation menu slots with editor. Essential for secondary development.",
+    "version": "1.0.11",
+    "bbs_version": "4.0.4",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "overwrites_rank": [],
+    "dependencies": []
+}

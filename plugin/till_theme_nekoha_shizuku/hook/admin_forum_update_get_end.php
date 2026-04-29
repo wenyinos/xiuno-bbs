@@ -1,0 +1,1 @@
+$input['color'] = form_text('color', $_forum['color']);

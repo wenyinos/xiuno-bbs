@@ -1,0 +1,61 @@
+<div class="modal fade" id="how_to_use_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">菜单项设置详解</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+
+                <dl class="dl-horizontal dl-horizontal-narrow">
+                    <dt>ID</dt>
+                    <dd>一般情况不需要动。</dd>
+                    <dt>排序</dt>
+                    <dd><b>数字越小越靠前，越大越靠后；</b>建议以10的倍数作为顺序，方便后期添加菜单项时将菜单项插入到希望出现的位置中。</dd>
+                    <dt>图标</dt>
+                    <dd>输入<a href="https://fontawesome.com.cn/faicons/">Font Awesome图标</a>名称，或图标图片的网址，不填写则不显示图标。</dd>
+                    <dt>导航标签</dt>
+                    <dd>显示在页面上的文字。</dd>
+                    <dt>网址</dt>
+                    <dd>输入网址或“魔法菜单项”；外链使用<code>https://</code>或<code>https://</code>前缀，内链可以去掉本站网址前缀（如<samp>https://example.net/thread-1234.htm</samp> <b>&rarr;</b> <samp>thread-1234.htm</samp>）。</dd>
+                    <dt>Title属性</dt>
+                    <dd>鼠标悬停在上面时会看到的说明文字。</dd>
+                    <dt>描述</dt>
+                    <dd>某些插件会用到此项，作为说明文字。</dd>
+                    <dt>CSS类</dt>
+                    <dd>给该菜单项添加CSS类，实现一些效果。</dd>
+                    <dt>自定义属性</dt>
+                    <dd>给该菜单项添加自定义属性，实现一些效果。</dd>
+                    <dt>二级菜单</dt>
+                    <dd>选择一个菜单即可让该菜单项拥有二级菜单；若选择了二级菜单，则该菜单的链接会被忽略。</dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="magic_href_ref_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">魔法菜单项参考</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <dl class="dl-horizontal">
+                    <?php foreach($abs_nav_menus_magic_href as $magic_href_item => $magic_href_item_label ): ?>
+                    <dt>
+                        <?= $magic_href_item ?>
+                    </dt>
+                    <dd>
+                        <?= $magic_href_item_label ?>
+                    </dd>
+                    <?php endforeach; ?>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+</div>

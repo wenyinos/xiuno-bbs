@@ -1,0 +1,14 @@
+{
+    "name": "帖子收藏",
+    "brief": "收藏自己喜欢的帖子，展示热门收藏的帖子。",
+    "version": "2.1.7",
+    "author": "deatil",
+    "id": "haya_favorite",
+    "bbs_version": "4.0.1",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": {
+        "thread_plugin_body.htm": 500
+    },
+    "dependencies": []
+}

@@ -1,0 +1,12 @@
+<div class="form-group row">
+    <label class="col-sm-2 form-control-label" for="name">
+        <span class="badge" style="background:<?php echo(isset($_forum['color'])&&!empty($_forum['color'])?$_forum['color']:'var(--white)');?>">&emsp;</span>
+        颜色 / Color：
+    </label>
+    <div class="col-sm-10">
+        <?php echo $input['color'];?>
+        <p class="help-block small text-muted mt-2">
+            请输入十六进制的颜色值或CSS变量。Please enter a color value in hexadecimal (include <samp>#</samp>) or CSS variable (include <samp>var()</samp> ).
+        </p>
+    </div>
+</div>
