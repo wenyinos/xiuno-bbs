@@ -16,8 +16,8 @@
 
 function_exists('ini_set') AND ini_set('display_errors', DEBUG ? '1' : '0');
 error_reporting(DEBUG ? E_ALL : 0);
-version_compare(PHP_VERSION, '5.3.0', '<') AND set_magic_quotes_runtime(0);
-$get_magic_quotes_gpc = get_magic_quotes_gpc();
+// get_magic_quotes_gpc() / set_magic_quotes_runtime() 已在 PHP 8.0 移除，magic_quotes 功能自 PHP 5.4 起不存在
+$get_magic_quotes_gpc = FALSE;
 $starttime = microtime(1);
 $time = time();
 
