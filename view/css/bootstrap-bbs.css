@@ -183,6 +183,72 @@ table.nav_tag_list td a {
   font-weight: 800;
 }
 
+/* WenYin style: only top/bottom bars and button colors */
+#header.navbar.bg-dark,
+#footer.bg-dark {
+  background-color: #6f42c1 !important;
+  background-image: none !important;
+}
+
+#header .navbar-brand,
+#header .nav-link,
+#footer,
+#footer a.text-muted {
+  color: #e8f3ff !important;
+}
+
+.btn-primary {
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #5d37a5;
+  border-color: #5d37a5;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.35);
+}
+
+.btn-secondary {
+  background-color: #8f6ad8;
+  border-color: #8f6ad8;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary.active,
+.show > .btn-secondary.dropdown-toggle {
+  background-color: #7e57c9;
+  border-color: #7e57c9;
+}
+
+.btn-secondary:focus,
+.btn-secondary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(143, 106, 216, 0.35);
+}
+
+.btn-outline-primary {
+  color: #6f42c1;
+  border-color: #6f42c1;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:active,
+.btn-outline-primary.active,
+.show > .btn-outline-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #6f42c1;
+  border-color: #6f42c1;
+}
+
 @keyframes quote_animation {
   from {
     background-color: #177f2e;

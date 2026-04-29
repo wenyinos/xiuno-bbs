@@ -7,7 +7,7 @@ This repository includes the core forum, admin panel, language packs, and plugin
 
 ## Requirements
 
-- PHP 7.x+ (compatible with Xiuno 4 ecosystem)
+- PHP 8.4+ (compatible with Xiuno 4 ecosystem)
 - MySQL / MariaDB
 - Nginx or Apache
 - Writable directories: `upload/`, `plugin/`, `tmp/`, `log/`, `conf/`

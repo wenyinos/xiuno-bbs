@@ -7,7 +7,7 @@ Xiuno BBS 是轻量且可扩展的 PHP 论坛系统。
 
 ## 环境要求
 
-- PHP 7.x+（兼容 Xiuno 4 生态）
+- PHP 8.4+（兼容 Xiuno 4 生态）
 - MySQL / MariaDB
 - Nginx 或 Apache
 - 可写目录：`upload/`、`plugin/`、`tmp/`、`log/`、`conf/`
