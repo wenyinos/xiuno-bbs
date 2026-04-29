@@ -1,1 +1,0 @@
-$color = param('color');

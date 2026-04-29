@@ -1,5 +1,0 @@
-<?php if( $till_theme_nekoha_shizuku_setting['threadlist_ajax'] ): ?>
-<div class="loadmore-container text-center">
-    <a id="loadmore" class="btn btn-primary" href="<?php echo( url( ( empty(param(0)) ? 'index' : param(0) ).'-'.( empty(param(1)) ? 2 : intval(param(1)) + 1 ) ) );?>" title="<?php echo lang('load_more'); ?>" onclick="history.replaceState(null,null,this.href)"><i class="icon-refresh"></i></a>
-</div>
-<?php endif; ?>
