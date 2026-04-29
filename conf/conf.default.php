@@ -10,7 +10,7 @@
 */
 return array (
 	'db' => array (
-		'type' => 'mysql',	
+		'type' => 'pdo_mysql',	
 		'mysql' => array (
 			'master' => array (
 				'host' => 'localhost',

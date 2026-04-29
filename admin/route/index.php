@@ -64,7 +64,6 @@ if($action == 'login') {
 	$info = array();
 	$info['disable_functions'] = ini_get('disable_functions');
 	$info['allow_url_fopen'] = ini_get('allow_url_fopen') ? lang('yes') : lang('no');
-	$info['safe_mode'] = ini_get('safe_mode') ? lang('yes') : lang('no');
 	empty($info['disable_functions']) && $info['disable_functions'] = lang('none');
 	$info['upload_max_filesize'] = ini_get('upload_max_filesize');
 	$info['post_max_size'] = ini_get('post_max_size');

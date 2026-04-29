@@ -9,7 +9,7 @@ class cache_memcached {
 	public $errstr = '';
 
         public function __construct($conf = array()) {
-                if(!extension_loaded('Memcache') && !extension_loaded('Memcached') ) {
+                if(!extension_loaded('Memcached') ) {
                         return $this->error(1, ' Memcached 扩展没有加载，请检查您的 PHP 版本');
                 }
                 $this->conf = $conf;
@@ -18,14 +18,11 @@ class cache_memcached {
         public function connect() {
                 $conf = $this->conf;
                 if($this->link) return $this->link;
-                if(extension_loaded('Memcache')) {
-                        $memcache = new Memcache;
-                        $r = $memcache->connect($conf['host'], $conf['port']);
-                } elseif(extension_loaded('Memcached')) {
+                if(extension_loaded('Memcached')) {
                         $memcache = new Memcached;
                         $r = $memcache->addserver($conf['host'], $conf['port']);
                 } else {
-			return $this->error(-1, 'Memcache 扩展不存在。');
+			return $this->error(-1, 'Memcached 扩展不存在。');
                 }
                 
                 if(!$r) {

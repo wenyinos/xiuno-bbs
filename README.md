@@ -19,6 +19,11 @@ This repository includes the core forum, admin panel, language packs, and plugin
 3. Delete the `install/` directory after installation.
 4. Configure production permissions for writable directories only.
 
+## Recent Updates
+
+- Upgraded compatibility target to PHP 8.4+ (by `wenyinos`).
+- Repository: <https://github.com/wenyinos/xiuno-bbs>
+
 ## Nginx Rewrite Rule (Pseudo-static)
 
 Add the following rule to your Nginx site config:
@@ -46,4 +51,3 @@ location ~* \.(htm)$ {
 - Do not commit `conf/conf.php` or credential files.
 - Keep logs/uploads out of version control backups when possible.
 - Restrict write permission to runtime directories only.
-

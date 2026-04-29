@@ -19,6 +19,11 @@ Xiuno BBS 是轻量且可扩展的 PHP 论坛系统。
 3. 安装完成后删除 `install/` 目录。
 4. 仅为运行时目录配置写权限。
 
+## 最近更新
+
+- 已将兼容性目标升级到 PHP 8.4+（升级者：`wenyinos`）。
+- 仓库地址：<https://github.com/wenyinos/xiuno-bbs>
+
 ## Nginx 伪静态规则
 
 将以下规则加入 Nginx 站点配置：
@@ -46,4 +51,3 @@ location ~* \.(htm)$ {
 - 不要提交 `conf/conf.php` 或任何密钥配置。
 - 建议将日志和上传文件排除在代码备份之外。
 - 仅给运行时目录授予写权限，避免全站可写。
-

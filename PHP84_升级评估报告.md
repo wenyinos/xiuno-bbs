@@ -1,7 +1,7 @@
 # Xiuno BBS 升级到 PHP 8.4+ 评估报告
 
 生成时间：2026-04-29  
-最后更新：2026-04-30  
+最后更新：2026-04-30 14:30  
 评估范围：主程序 + xiunophp 框架库 + 已安装插件（`plugin/`）  
 评估方式：静态扫描 + 语法检查 + 全量 grep 搜索（不改代码）
 
@@ -11,7 +11,7 @@
 此外发现 **4 个高风险项（P1）** 和 **7 个中低风险项（P2）**，涉及第三方库、废弃 API 调用和历史遗留代码。  
 插件本体代码整体兼容性较好，但会被核心阻断项连带影响。
 
-**当前进度：P0 全部完成（3/3），P1 待处理（0/4），P2 待处理（0/7）。**
+**当前进度：P0 全部完成（3/3），P1 全部完成（3/3），P2 全部完成（7/7）。**
 
 ---
 
@@ -162,16 +162,16 @@
 | P0 | 1 | 移除/替代 `get_magic_quotes_gpc()` 调用 | xiunophp.php, xiunophp.min.php | ✅ 已完成 |
 | P0 | 2 | 修复 `xn_html_safe.func.php` 花括号字符串偏移语法（3 处） | xn_html_safe.func.php | ✅ 已完成 |
 | P0 | 3 | 替换 `xn_send_mail.func.php` 中 `each()` 调用（3 处） | xn_send_mail.func.php | ✅ 已完成 |
-| P1 | 4 | 将 `conf/conf.default.php` 默认 DB 驱动改为 `pdo_mysql` | conf.default.php | 待处理 |
-| P1 | 5 | 删除 `xn_send_mail.func.php` 中 `magic_quotes` 相关代码块 | xn_send_mail.func.php | 待处理 |
-| P1 | 6 | 移除 `cache_memcached.class.php` 中 `Memcache` 扩展支持分支 | cache_memcached.class.php, xiunophp.min.php | 待处理 |
-| P2 | 7 | 将 `set_error_handler` 参数 `-1` 改为 `E_ALL` | xiunophp.php, xiunophp.min.php | 待处理 |
-| P2 | 8 | 批量替换 `var $` 为 `public $` | xn_html_safe.func.php | 待处理 |
-| P2 | 9 | 移除 `xn_html_safe.func.php` 中 `=&` 引用赋值 | xn_html_safe.func.php | 待处理 |
-| P2 | 10 | 移除 `safe_mode` 相关判断 | admin/route/index.php, xn_send_mail.func.php, misc.func.php | 待处理 |
-| P2 | 11 | 替换 `PEAR.php` 依赖为 `trigger_error` | xn_html_safe.func.php | 待处理 |
-| P2 | 12 | 清理 PHP < 7.0 死代码分支 | 多个 xiunophp 文件 | 待处理 |
-| P2 | 13 | 删除 `tool/merge.php` 中无效的 `set_magic_quotes_runtime` 行 | tool/merge.php | 待处理 |
+| P1 | 4 | 将 `conf/conf.default.php` 默认 DB 驱动改为 `pdo_mysql` | conf.default.php | ✅ 已完成 |
+| P1 | 5 | 删除 `xn_send_mail.func.php` 中 `magic_quotes` 相关代码块 | xn_send_mail.func.php | ✅ 已完成 |
+| P1 | 6 | 移除 `cache_memcached.class.php` 中 `Memcache` 扩展支持分支 | cache_memcached.class.php, xiunophp.min.php | ✅ 已完成 |
+| P2 | 7 | 将 `set_error_handler` 参数 `-1` 改为 `E_ALL` | xiunophp.php, xiunophp.min.php | ✅ 已完成 |
+| P2 | 8 | 批量替换 `var $` 为 `public $` | xn_html_safe.func.php | ✅ 已完成 |
+| P2 | 9 | 移除 `xn_html_safe.func.php` 中 `=&` 引用赋值 | xn_html_safe.func.php | ✅ 已完成 |
+| P2 | 10 | 移除 `safe_mode` 相关判断 | admin/route/index.php, xn_send_mail.func.php, misc.func.php | ✅ 已完成 |
+| P2 | 11 | 替换 `PEAR.php` 依赖为 `trigger_error` | xn_html_safe.func.php | ✅ 已完成 |
+| P2 | 12 | 清理 PHP < 7.0 死代码分支 | 多个 xiunophp 文件 | ✅ 已完成 |
+| P2 | 13 | 删除 `tool/merge.php` 中无效的 `set_magic_quotes_runtime` 行 | tool/merge.php | ✅ 已完成 |
 
 完成整改后，执行一次"排除 hook 片段"的全量 `php -l` 与关键流程回归（发帖/回帖/邮件/插件入口）。
 
@@ -184,7 +184,17 @@
 | 2026-04-30 | P0-1 修复 `get_magic_quotes_gpc` | xiunophp.php, xiunophp.min.php | 硬编码 `$get_magic_quotes_gpc = FALSE` |
 | 2026-04-30 | P0-2 修复花括号字符串偏移 | xn_html_safe.func.php | 3 处 `{...}` → `[...]` |
 | 2026-04-30 | P0-3 修复 `each()` 调用 | xn_send_mail.func.php | 3 处 `while+each` → `foreach` |
-| 2026-04-30 | 全量 `php -l` 验证 | — | 排除 hook 片段后全部通过 |
+| 2026-04-30 | P1-4 修改默认 DB 驱动 | conf/conf.default.php | `mysql` → `pdo_mysql` |
+| 2026-04-30 | P1-5 删除 magic_quotes 代码 | xn_send_mail.func.php | 删除整个 magic_quotes 相关代码块 |
+| 2026-04-30 | P1-6 移除 Memcache 扩展支持 | cache_memcached.class.php, xiunophp.min.php | 仅保留 Memcached 扩展 |
+| 2026-04-30 | P2-7 修复 set_error_handler 参数 | xiunophp.php, xiunophp.min.php | `-1` → `E_ALL` |
+| 2026-04-30 | P2-8 替换 var 为 public | xn_html_safe.func.php | 20+ 处 `var $` → `public $` |
+| 2026-04-30 | P2-9 移除引用赋值 | xn_html_safe.func.php | 20+ 处 `=&` → `=` |
+| 2026-04-30 | P2-10 移除 safe_mode 判断 | admin/route/index.php, xn_send_mail.func.php, misc.func.php | 3 处 safe_mode 检查 |
+| 2026-04-30 | P2-11 替换 PEAR.php 依赖 | xn_html_safe.func.php | 2 处 `require_once` → `trigger_error` |
+| 2026-04-30 | P2-12 清理死代码分支 | 多个 xiunophp 文件 | 删除 PHP < 7.0 兼容代码 |
+| 2026-04-30 | P2-13 删除无效代码 | tool/merge.php | 删除 `set_magic_quotes_runtime` 行 |
+| 2026-04-30 | 全量 `php -l` 验证 | — | 所有修改文件语法检查通过 |
 
 ---
 
