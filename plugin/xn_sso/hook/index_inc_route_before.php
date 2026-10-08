@@ -51,3 +51,31 @@ if(sso_enabled() && empty($uid) && $wysso_ticket !== '')
 	}
 	// NULL（中心不可达）→ 静默，不影响游客浏览
 }
+
+// 单点登出轻量校验（M-2）：已登录用户进行写操作（POST）时每 30 分钟校验一次中心票据有效性。
+// 中心已登出/撤票（2xxx）→ 静默本地登出；站点准入被撤销（1xxx）→ 本地登出并定向回中心
+if(sso_enabled() && !empty($uid) && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST'
+	&& (!isset($_SESSION['wy_ticket_checked_at']) || time() - intval($_SESSION['wy_ticket_checked_at']) > 1800))
+{
+	$_SESSION['wy_ticket_checked_at'] = time();
+	$wysso_ck = sso_api('ticket', array('ticket' => isset($_COOKIE['wy_auth']) ? $_COOKIE['wy_auth'] : ''));
+	if($wysso_ck !== NULL)
+	{
+		$wysso_ck_code = intval($wysso_ck['code']);
+		if($wysso_ck_code !== 0)
+		{
+			// 本地登出（同全域登出的本地部分；票据已失效无需 revoke）
+			$uid = 0;
+			$_SESSION['uid'] = 0;
+			user_token_clear();
+			unset($_SESSION['wy_ticket_checked_at']);
+
+			if($wysso_ck_code > 0 && $wysso_ck_code < 2000)
+			{
+				header('Location: ' . $wysso_conf['login_url']);
+				exit;
+			}
+			// 2xxx（中心已登出/撤票）：静默降级为游客继续本请求
+		}
+	}
+}
