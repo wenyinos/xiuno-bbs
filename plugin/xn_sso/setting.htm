@@ -1,0 +1,96 @@
+<?php include _include(ADMIN_PATH.'view/htm/header.inc.htm');?>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="d-flex justify-content-between">
+					<div class="btn btn-sm">wenyinos 统一认证设置</div>
+					<div class="btn-group">
+						<a class="btn btn-sm" href="<?php echo url("plugin-setting-xn_sso");?>" role="button"><i class="icon-refresh"></i></a>
+						<a class="btn btn-sm" href="<?php echo url("plugin");?>" role="button"><i class="icon-times"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<form action="<?php echo url("plugin-setting-xn_sso");?>" method="post" id="form">
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-right">统一认证开关：</label>
+						<div class="col-md-10">
+							<?php echo $input['enabled']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-right">中心 API 地址：</label>
+						<div class="col-md-10">
+							<?php echo $input['api_url']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-right">应用标识（app_id）：</label>
+						<div class="col-md-10">
+							<?php echo $input['app_id']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-right">应用密钥（secret）：</label>
+						<div class="col-md-10">
+							<?php echo $input['secret']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-right">超时（秒）：</label>
+						<div class="col-md-10">
+							<?php echo $input['timeout']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-right">中心登录页地址：</label>
+						<div class="col-md-10">
+							<?php echo $input['login_url']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label text-right">中心登出页地址：</label>
+						<div class="col-md-10">
+							<?php echo $input['logout_url']; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-md-2 form-control-label"></label>
+						<div class="col-md-3">
+							<button type="submit" class="btn btn-primary btn-block" id="submit" data-loading-text="<?php echo lang('submiting');?>..."><?php echo lang('confirm');?></button>
+						</div>
+					</div>
+				</form>
+				<p class="text-small text-muted">中心地址与密钥由认证中心后台的「应用密钥」页签提供；变更后立即生效。本站登录/退出统一由认证中心处理（登录页与退出链接均自动跳转中心）。中心不可达时本站游客浏览不受影响。</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php include _include(ADMIN_PATH.'view/htm/footer.inc.htm');?>
+
+<script>
+
+var jform = $("#form");
+var jsubmit = $("#submit");
+var referer = '<?php echo http_referer();?>';
+jform.on('submit', function(){
+	jform.reset();
+	jsubmit.button('loading');
+	var postdata = jform.serialize();
+	$.xpost(jform.attr('action'), postdata, function(code, message) {
+		if(code == 0) {
+			$.alert(message);
+			jsubmit.text(message).delay(2000).button('reset').location(referer);
+			return;
+		} else {
+			$.alert(message);
+			jsubmit.button('reset');
+		}
+	});
+	return false;
+});
+
+</script>

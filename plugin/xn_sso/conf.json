@@ -1,0 +1,10 @@
+{
+    "name": "统一认证（wenyinos SSO）",
+    "brief": "接入 wenyinos 认证中心：登录验证 / 登录态继承 / 登出销毁 / 改密反向同步<br>wenyinos unified authentication connector",
+    "version": "1.0",
+    "bbs_version": "4.0",
+    "installed": 1,
+    "enable": 1,
+    "hooks_rank": [],
+    "dependencies": []
+}

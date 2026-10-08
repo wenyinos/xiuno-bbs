@@ -24,6 +24,13 @@ Xiuno BBS 是轻量且可扩展的 PHP 论坛系统。
 - 已将兼容性目标升级到 PHP 8.4+（升级者：`wenyinos`）。
 - 仓库地址：<https://github.com/wenyinos/xiuno-bbs>
 
+## 统一认证（wenyinos SSO）
+
+本项目已接入**玟茵开源社区统一认证中心**：论坛的登录页、注册、退出与改密全部定向 / 同步到认证中心，实现社区各站点（论坛 / 禅道）单点通行。在 <https://wenyinos.com/auth/> 登录一次后，访问论坛自动处于登录态。
+
+- 接入组件：[`plugin/xn_sso/`](./plugin/xn_sso/) — 配置项与**总开关**（可一键停用恢复原生登录）见其 [README](./plugin/xn_sso/README.md)。
+- 全部接入代码均为插件 hook 注入，未修改任何 BBS 核心文件。
+
 ## Nginx 伪静态规则
 
 将以下规则加入 Nginx 站点配置：

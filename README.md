@@ -24,6 +24,13 @@ This repository includes the core forum, admin panel, language packs, and plugin
 - Upgraded compatibility target to PHP 8.4+ (by `wenyinos`).
 - Repository: <https://github.com/wenyinos/xiuno-bbs>
 
+## Unified Authentication (wenyinos SSO)
+
+This build integrates with the **WenYin Open Source Community unified authentication center**: the forum login page, registration, logout and password changes are all redirected to / synchronized with the central auth service, giving single sign-on across the community sites (forum / ZenTao). Signing in once on <https://wenyinos.com/auth/> grants access to the forum automatically.
+
+- Connector: [`plugin/xn_sso/`](./plugin/xn_sso/) — configuration and the **on/off switch** are documented in its [README](./plugin/xn_sso/README.md); disabling it restores the native forum authentication instantly.
+- All integration code is implemented as plugin hooks — no core files are modified.
+
 ## Nginx Rewrite Rule (Pseudo-static)
 
 Add the following rule to your Nginx site config:
