@@ -6,6 +6,12 @@ $g_static_users = array(); // 变量缓存
 
 // hook model_user_start.php
 
+// 当前请求是否 HTTPS（cookie Secure 标志用）
+function user_is_https() {
+	return (isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) !== 'off')
+		or (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) and strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https');
+}
+
 // ------------> 最原生的 CURD，无关联其他数据。
 
 function user__create($arr) {
@@ -297,7 +303,7 @@ function user_token_get() {
 	// hook model_user_token_get_start.php
 	
 	if(!$_uid) {
-		setcookie('bbs_token', '', $time - 86400, '');
+		setcookie('bbs_token', '', array('expires' => $time - 86400, 'path' => '', 'httponly' => true, 'samesite' => 'Lax', 'secure' => user_is_https()));
 	}
 	
 	// hook model_user_token_get_end.php
@@ -332,14 +338,14 @@ function user_token_set($uid) {
 	global $time, $conf;
 	if(empty($uid)) return;
 	$token = user_token_gen($uid);
-	setcookie('bbs_token', $token, $time + 8640000, $conf['cookie_path']);
+	setcookie('bbs_token', $token, array('expires' => $time + 8640000, 'path' => $conf['cookie_path'], 'httponly' => true, 'samesite' => 'Lax', 'secure' => user_is_https()));
 	
 	// hook model_user_token_set_end.php
 }
 
 function user_token_clear() {
 	global $time, $conf;
-	setcookie('bbs_token', '', $time - 8640000, $conf['cookie_path']);
+	setcookie('bbs_token', '', array('expires' => $time - 8640000, 'path' => $conf['cookie_path'], 'httponly' => true, 'samesite' => 'Lax', 'secure' => user_is_https()));
 	
 	// hook model_user_token_clear_end.php
 }

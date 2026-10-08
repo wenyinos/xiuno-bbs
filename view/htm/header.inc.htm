@@ -29,7 +29,7 @@
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
 
-	<title><?php echo $header['title'];?></title>
+	<title><?php echo htmlspecialchars($header['title']);?></title>
 	
 	<!--{hook header_link_before.htm}-->
 	
