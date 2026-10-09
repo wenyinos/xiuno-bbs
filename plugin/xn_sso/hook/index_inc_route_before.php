@@ -28,6 +28,7 @@ if(sso_enabled() && empty($uid) && $wysso_ticket !== '')
 			if($wysso_uid)
 			{
 				unset($_SESSION['wy_sso_denied_ticket']);
+				$_SESSION['wy_sso_ticket_cur'] = $wysso_ticket;   // 记录本次票据（供一致性比对）
 				$uid = $wysso_uid;
 				$_SESSION['uid'] = $uid;
 				user_token_set($uid);
@@ -50,6 +51,79 @@ if(sso_enabled() && empty($uid) && $wysso_ticket !== '')
 		// 2xxx（票据无效/过期）与 3xxx（协议异常）：静默继续游客浏览，不缓存
 	}
 	// NULL（中心不可达）→ 静默，不影响游客浏览
+}
+
+// 账号切换/中心退出的一致性保障：本地已登录时，比对本请求票据与上次兑换记录。
+// 票据变更（换账号）→ 重新兑换并切换到新身份；票据清除（中心已退出）/失效 → 本地登出，静默游客；
+// 中心不可达 → 保持现状（降级）。票据未变时零网络开销。
+if(sso_enabled() && !empty($uid))
+{
+	$wysso_cur = isset($_COOKIE['wy_auth']) ? (string)$_COOKIE['wy_auth'] : '';
+	$wysso_rec = isset($_SESSION['wy_sso_ticket_cur']) ? (string)$_SESSION['wy_sso_ticket_cur'] : '';
+	if($wysso_cur !== $wysso_rec)
+	{
+		$wysso_sw = $wysso_cur !== '' ? sso_api('ticket', array('ticket' => $wysso_cur)) : NULL;
+		if($wysso_cur === '')
+		{
+			// 中心票据已清除（中心已退出）→ 本地登出，按游客继续本请求
+			$uid = 0;
+			$_SESSION['uid'] = 0;
+			user_token_clear();
+			unset($_SESSION['wy_sso_ticket_cur']);
+			$user = user_read(0);
+			$gid = empty($user) ? 0 : intval($user['gid']);
+			$group = isset($grouplist[$gid]) ? $grouplist[$gid] : $grouplist[0];
+			$forumlist_show = forum_list_access_filter($forumlist, $gid);
+			$forumarr = arrlist_key_values($forumlist_show, 'fid', 'name');
+		}
+		elseif($wysso_sw !== NULL)
+		{
+			$wysso_sw_code = isset($wysso_sw['code']) ? intval($wysso_sw['code']) : -1;
+			if($wysso_sw_code === 0)
+			{
+				// 新票据有效且非当前身份 → 切换为新账号
+				$wysso_uid = sso_upsert_user($wysso_sw['data']);
+				if($wysso_uid)
+				{
+					unset($_SESSION['wy_sso_denied_ticket']);
+					$_SESSION['wy_sso_ticket_cur'] = $wysso_cur;
+					$uid = $wysso_uid;
+					$_SESSION['uid'] = $uid;
+					user_token_set($uid);
+					$user = user_read($uid);
+					$gid = intval($user['gid']);
+					$group = isset($grouplist[$gid]) ? $grouplist[$gid] : $grouplist[0];
+					$forumlist_show = forum_list_access_filter($forumlist, $gid);
+					$forumarr = arrlist_key_values($forumlist_show, 'fid', 'name');
+				}
+			}
+			elseif($wysso_sw_code > 0 && $wysso_sw_code < 2000)
+			{
+				// 新票据业务拒绝（未开通/禁用/不存在）→ 本地登出并定向回中心
+				$uid = 0;
+				$_SESSION['uid'] = 0;
+				user_token_clear();
+				unset($_SESSION['wy_sso_ticket_cur']);
+				$_SESSION['wy_sso_denied_ticket'] = $wysso_cur;
+				header('Location: ' . $wysso_conf['login_url']);
+				exit;
+			}
+			else
+			{
+				// 票据无效/过期（2xxx）/协议异常（3xxx）→ 本地登出，静默游客
+				$uid = 0;
+				$_SESSION['uid'] = 0;
+				user_token_clear();
+				unset($_SESSION['wy_sso_ticket_cur']);
+				$user = user_read(0);
+				$gid = empty($user) ? 0 : intval($user['gid']);
+				$group = isset($grouplist[$gid]) ? $grouplist[$gid] : $grouplist[0];
+				$forumlist_show = forum_list_access_filter($forumlist, $gid);
+				$forumarr = arrlist_key_values($forumlist_show, 'fid', 'name');
+			}
+		}
+		// 中心不可达（NULL）→ 保持现状（降级静默）
+	}
 }
 
 // 单点登出轻量校验（M-2）：已登录用户进行写操作（POST）时每 30 分钟校验一次中心票据有效性。
