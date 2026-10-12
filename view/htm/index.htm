@@ -36,7 +36,7 @@
 			<!--{hook index_site_brief_start.htm}-->
 			<div class="m-3">
 				<h5 class="text-center"><?php echo htmlspecialchars($conf['sitename']);?></h5>
-				<div class="small line-height-3"><?php echo $conf['sitebrief'];?></div>
+				<div class="small line-height-3"><?php echo preg_replace('#\son\w+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)|(javascript|vbscript|data)\s*:#is', '', strip_tags($conf['sitebrief'], '<br><b><strong><i><em><u><p><a><span>'));?></div>
 			</div>
 			<div class="card-footer p-2">
 				<table class="w-100 small">

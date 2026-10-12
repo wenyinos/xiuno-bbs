@@ -21,6 +21,22 @@ if(DEBUG < 3) {
 	admin_token_check();
 }
 
+// CSRF 防护：后台 POST 的 Origin/Referer 若存在则必须同源 / check request origin for admin POST
+if($method == 'POST') {
+	$origin = _SERVER('HTTP_ORIGIN');
+	$referer = _SERVER('HTTP_REFERER');
+	$host = _SERVER('HTTP_HOST');
+	$csrf_ok = TRUE;
+	if($origin !== NULL) {
+		$origin_host = parse_url($origin, PHP_URL_HOST);
+		$csrf_ok = $origin_host !== NULL && strcasecmp($origin_host, $host) == 0;
+	} elseif($referer !== NULL) {
+		$referer_host = parse_url($referer, PHP_URL_HOST);
+		$csrf_ok = $referer_host !== NULL && strcasecmp($referer_host, $host) == 0;
+	}
+	!$csrf_ok AND message(-1, 'Illegal request origin (CSRF check failed).');
+}
+
 $route = param(0, 'index');
 
 switch ($route) {

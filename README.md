@@ -22,6 +22,7 @@ This repository includes the core forum, admin panel, language packs, and plugin
 ## Recent Updates
 
 - Upgraded compatibility target to PHP 8.4+ (by `wenyinos`).
+- Security hardening: the site brief field is now rendered through an HTML whitelist (blocking script injection), and all admin panel POST requests are validated for same-origin Origin/Referer (CSRF protection).
 - Repository: <https://github.com/wenyinos/xiuno-bbs>
 
 ## Unified Authentication (wenyinos SSO)
@@ -58,3 +59,5 @@ location ~* \.(htm)$ {
 - Do not commit `conf/conf.php` or credential files.
 - Keep logs/uploads out of version control backups when possible.
 - Restrict write permission to runtime directories only.
+- The site brief (`sitebrief`) allows limited HTML (`<br> <b> <strong> <i> <em> <u> <p> <a> <span>`); scripts, iframes, event-handler attributes and `javascript:` URLs are stripped both on save and on output.
+- Admin panel POST requests are rejected unless Origin/Referer (when present) matches the site host.

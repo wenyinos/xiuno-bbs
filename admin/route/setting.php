@@ -34,6 +34,8 @@ if($action == 'base') {
 	} else {
 		
 		$sitebrief = param('sitebrief', '', FALSE);
+		// 白名单净化：防 script 注入（sitebrief 前台不转义输出）
+		$sitebrief = preg_replace('#\son\w+\s*=\s*(?:"[^"]*"|\'[^\']*\'|[^\s>]+)|(javascript|vbscript|data)\s*:#is', '', strip_tags($sitebrief, '<br><b><strong><i><em><u><p><a><span>'));
 		$sitename = param('sitename', '', FALSE);
 		$runlevel = param('runlevel', 0);
 		$user_create_email_on = param('user_create_email_on', 0);

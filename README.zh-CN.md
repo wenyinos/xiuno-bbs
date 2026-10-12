@@ -22,6 +22,7 @@ Xiuno BBS 是轻量且可扩展的 PHP 论坛系统。
 ## 最近更新
 
 - 已将兼容性目标升级到 PHP 8.4+（升级者：`wenyinos`）。
+- 安全加固：站点介绍字段改为 HTML 白名单净化输出（阻断脚本注入），后台全部 POST 请求校验 Origin/Referer 同源（CSRF 防护）。
 - 仓库地址：<https://github.com/wenyinos/xiuno-bbs>
 
 ## 统一认证（wenyinos SSO）
@@ -58,3 +59,5 @@ location ~* \.(htm)$ {
 - 不要提交 `conf/conf.php` 或任何密钥配置。
 - 建议将日志和上传文件排除在代码备份之外。
 - 仅给运行时目录授予写权限，避免全站可写。
+- 站点介绍（`sitebrief`）允许的 HTML 仅限 `<br> <b> <strong> <i> <em> <u> <p> <a> <span>`；脚本、iframe、事件属性与 `javascript:` 协议在保存与输出时均会被剥除。
+- 后台 POST 请求要求 Origin/Referer（存在时）与本站主机一致，否则拒绝。
